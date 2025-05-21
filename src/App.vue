@@ -19,6 +19,7 @@
             <th>Conta de Origem</th>
             <th>Conta de Destino</th>
             <th>Valor</th>
+            <th>Taxa de transferência</th>
             <th>Data da transferência</th>
             <th>
               <button class="waves-effect btn-small blue darken-1"><i class="material-icons">Atualizar</i></button>
@@ -31,6 +32,7 @@
             <td>{{ transfer.originAccount }}</td>
             <td>{{ transfer.destinationAccount }}</td>
             <td>{{ transfer.ammount }}</td>
+            <td>{{ transfer.transferFee }}</td>
             <td>{{ transfer.dateToTransfer }}</td>
           </tr>
         </tbody>
@@ -56,13 +58,17 @@ export default defineComponent({
 
   data() {
     return {
+      transfer: {} as ITransfer,
       transfers: [] as ITransfer[]
     }
   },
 
   methods: {
     saveTransfer(transfer: ITransfer) {
-      console.log("save Transfer")
+      Transferencia.salvar(transfer).then(resposta => {
+        console.log("save Transfer");
+        alert('Salvo com sucesso')
+      });
     }
   },
 
@@ -71,7 +77,7 @@ export default defineComponent({
       console.log(resposta.data);
       this.transfers = resposta.data;
     })
-  },
+  }
 })
 </script>
 
@@ -81,5 +87,3 @@ export default defineComponent({
   text-align: center;
 }
 </style>
-
-<!-- : { originAccount: string; destinationAccount: string; ammount: number; dateToTransfer: string; }[] -->
